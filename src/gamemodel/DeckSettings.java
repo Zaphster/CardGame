@@ -2,10 +2,9 @@ package gamemodel;
 
 public class DeckSettings {
     private String name;
-    private int maxDeckBuildSize = GameSettings.DEFAULT_MAX_DECK_BUILD_SIZE;
-    private int maxDeckPlaySize = GameSettings.DEFAULT_MAX_DECK_PLAY_SIZE;
-
-    public Boolean usesPlayerCard = true;
+    private int maxDeckBuildSize;
+    private int maxDeckPlaySize;
+    private int maxNumCommanders;
 
     public DeckSettings(){
 
@@ -34,5 +33,9 @@ public class DeckSettings {
     public int getMaxDeckPlaySize(){
         return this.maxDeckPlaySize;
     }
+
+    public void setMaxNumCommanders(int numCommanders) { this.maxNumCommanders = numCommanders; }
+
+    public int getMaxNumCommanders() { return this.maxNumCommanders; }
 
 }

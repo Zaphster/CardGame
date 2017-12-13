@@ -5,7 +5,7 @@ public abstract class Augment {
 
     public enum TYPE{
         STAT(StatAugment.class),
-        PLAYER_CARD(PlayerCardAugment.class);
+        PLAYER_CARD(CommanderCardAugment.class);
 
         public Class<?> associatedClass;
 

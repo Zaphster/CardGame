@@ -16,7 +16,7 @@ public class Card {
         BASE,
         MINION,
         TECH,
-        PLAYER
+        COMMANDER
     }
 
     public Card(){

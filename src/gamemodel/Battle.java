@@ -1,21 +1,29 @@
 package gamemodel;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Battle {
 
-    private ArrayList<Player> players = new ArrayList();
-    private GameType gameType;
+    private ArrayList<Player> players = new ArrayList<>();
+    private BattleType battleType;
+    private Field field;
     private int turn = 0;
 
 
-    public Battle(GameType gameType){
-        if(gameType == null){
+    @Contract("null, _ -> fail; !null, null -> fail")
+    public Battle(BattleType battleType, Field field){
+        if(battleType == null){
             throw new NullPointerException();
         }
-        this.gameType = gameType;
+        if(field == null){
+            throw new NullPointerException();
+        }
+        this.field = field;
+        this.battleType = battleType;
     }
 
     public void addPlayer(Player player){

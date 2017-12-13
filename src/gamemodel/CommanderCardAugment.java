@@ -1,9 +1,9 @@
 package gamemodel;
 
-public class PlayerCardAugment extends Augment {
+public class CommanderCardAugment extends Augment {
     private Augment.TYPE type = TYPE.PLAYER_CARD;
 
-    public PlayerCardAugment() {
+    public CommanderCardAugment() {
 
     }
 

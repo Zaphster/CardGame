@@ -5,21 +5,29 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Deck {
+public class DeckPlay {
+    private static final String DECK_FULL = "Deck is full";
+    private static final String CARD_NOT_FOUND_IN_DECK = "Card is not in the deck";
+    private static final String DECK_SHUFFLE_ERROR = "Deck shuffling error";
     private final ArrayList<Card> cards;
-    private DeckSettings deckSettings;
+    private final DeckSettings settings;
 
-    public Deck(){
-        cards = new ArrayList<>();
+    public DeckPlay(DeckSettings settings, ArrayList<Card> cards){
+        if(cards == null) {
+            throw new NullPointerException();
+        }
+        if(settings == null) {
+            throw new NullPointerException();
+        }
+        this.cards = cards;
+        this.settings = settings;
     }
-
-    public void setDeckSettings(DeckSettings deckSettings){
-        this.deckSettings = deckSettings;
-    }
-
-    public synchronized void addCard(Card card) throws Exception {
+    public synchronized  void addCard_play(Card card) throws Exception {
         if (card == null) {
             throw new NullPointerException();
+        }
+        if (cards.size() >= settings.getMaxDeckPlaySize()) {
+            throw new Exception(DECK_FULL);
         }
         cards.add(card);
     }
@@ -31,6 +39,9 @@ public class Deck {
     public synchronized void addCardAtIndex(Card card, int index) throws Exception {
         if (card == null) {
             throw new NullPointerException();
+        }
+        if (cards.size() >= settings.getMaxDeckPlaySize()){
+            throw new Exception(DECK_FULL);
         }
         cards.add(index, card);
     }
@@ -61,7 +72,7 @@ public class Deck {
         if(cards.contains(card)){
             return cards.indexOf(card);
         } else {
-            throw new Exception("Card not found in deck");
+            throw new Exception(CARD_NOT_FOUND_IN_DECK);
         }
     }
 
@@ -88,13 +99,13 @@ public class Deck {
             cards.clear();
             cards.addAll(shuffled);
         } else {
-            throw new Exception("Deck shuffling error.  Shuffled count is not equal to original deck count.");
+            throw new Exception(DECK_SHUFFLE_ERROR);
         }
     }
 
     public synchronized Card removeCard(Card card) throws Exception {
         if(!cards.contains(card)){
-            throw new Exception("Card not found in deck");
+            throw new Exception(CARD_NOT_FOUND_IN_DECK);
         }
         cards.remove(card);
         return card;
@@ -113,12 +124,12 @@ public class Deck {
             index = getIndexOf(card);
             this.removeCard(card);
         } catch (Exception e) {
-            Logger.getLogger(Deck.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(DeckPlay.class.getName()).log(Level.SEVERE, null, e);
         }
         try {
             this.addCardToTop(card);
         } catch (Exception e) {
-            Logger.getLogger(Deck.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(DeckPlay.class.getName()).log(Level.SEVERE, null, e);
             this.addCardAtIndex(card, index);
         }
     }
@@ -128,12 +139,12 @@ public class Deck {
         try {
             card = this.removeCardAt(index);
         } catch (Exception e){
-            Logger.getLogger(Deck.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(DeckPlay.class.getName()).log(Level.SEVERE, null, e);
         }
         try {
             this.addCardToTop(card);
         } catch (Exception e) {
-            Logger.getLogger(Deck.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(DeckPlay.class.getName()).log(Level.SEVERE, null, e);
             this.addCardAtIndex(card, index);
         }
     }
@@ -144,17 +155,17 @@ public class Deck {
             index = this.getIndexOf(card);
             this.removeCard(card);
         } catch (Exception e) {
-            Logger.getLogger(Deck.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(DeckPlay.class.getName()).log(Level.SEVERE, null, e);
         }
         try {
             this.addCardToBottom(card);
         } catch (Exception e) {
-            Logger.getLogger(Deck.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(DeckPlay.class.getName()).log(Level.SEVERE, null, e);
             this.addCardAtIndex(card, index);
         }
     }
 
     public synchronized void addCardToBottom(Card card) throws Exception {
-        addCard(card);
+        addCard_play(card);
     }
 }

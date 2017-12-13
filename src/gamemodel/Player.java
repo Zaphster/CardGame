@@ -1,29 +1,32 @@
 package gamemodel;
 
-import java.util.ArrayList;
-
 public class Player {
     private final ManaPool manaPool;
-    private final Deck deck;
+    private final DeckBuild deckBuild;
+    private final DeckPlay deckPlay = null;
     private final Hand hand;
 
 
-    public Player(Deck deck){
-        if(deck == null){
+    public Player(DeckBuild deckBuild){
+        if(deckBuild == null){
             throw new NullPointerException();
         }
         manaPool = new ManaPool();
         hand = new Hand();
-        this.deck = deck;
+        this.deckBuild = deckBuild;
     }
 
-    public void setDeck(Deck deck){
-        deck = deck;
+    public void setDeckBuild(DeckBuild deckBuild){
+        deckBuild = deckBuild;
+    }
+
+    public void readyDeckForPlay() throws Exception{
+        deckPlay.addCards(deckBuild.getCards());
     }
 
     public void draw() throws Exception {
-        if(deck != null){
-            hand.addCard(deck.draw());
+        if(deckPlay != null){
+            hand.addCard(deckPlay.draw());
         } else {
             throw new NullPointerException();
         }
@@ -37,8 +40,8 @@ public class Player {
         return manaPool;
     }
 
-    public Deck getDeck(){
-        return deck;
+    public DeckBuild getDeckBuild(){
+        return deckBuild;
     }
 
 }
